@@ -6,6 +6,7 @@ import (
 	forcessl "github.com/gobuffalo/mw-forcessl"
 	i18n "github.com/gobuffalo/mw-i18n"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
+	"github.com/gobuffalo/packr"
 	"github.com/unrolled/secure"
 
 	"github.com/deibyssoca/ds_backend_go/models"
@@ -19,6 +20,8 @@ import (
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+
+// T is exported
 var T *i18n.Translator
 
 // App is where all routes and middleware for buffalo
@@ -71,7 +74,7 @@ func App() *buffalo.App {
 // for more information: https://gobuffalo.io/en/docs/localization
 func translations() buffalo.MiddlewareFunc {
 	var err error
-	if T, err = i18n.New(packr.New("app:locales", "../locales"), "en-US"); err != nil {
+	if T, err = i18n.New(packr.NewBox("../locales"), "en-US"); err != nil {
 		app.Stop(err)
 	}
 	return T.Middleware()

@@ -1,6 +1,6 @@
-# Welcome to Buffalo!
+# Welcome to ds_backend_go!
 
-Thank you for choosing Buffalo for your web development needs.
+.
 
 ## Database Setup
 
@@ -30,6 +30,24 @@ If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you 
 
 We recommend you heading over to [http://gobuffalo.io](http://gobuffalo.io) and reviewing all of the great documentation there.
 
-Good luck!
 
-[Powered by Buffalo](http://gobuffalo.io)
+## Utilidades
+
+# Constantes http de GO
+https://golang.org/src/net/http/status.go
+
+
+
+Uso de CURL
+
+# Ver datos como por ejemplo los HEADER
+curl -i http://localhost:3000
+
+# Para ejecutar una peticion POST
+curl http://localhost:3000 -X POST
+
+# para obtener informacion
+curl http://localhost:3000 -X POST -i
+
+# - H para agregar encabezados
+curl "http://localhost:3000/params" -H "acces_token:aaa123"

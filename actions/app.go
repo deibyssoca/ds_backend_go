@@ -9,8 +9,6 @@ import (
 	"github.com/gobuffalo/packr"
 	"github.com/unrolled/secure"
 
-	"github.com/deibyssoca/ds_backend_go/models"
-	"github.com/gobuffalo/buffalo-pop/v2/pop/popmw"
 	contenttype "github.com/gobuffalo/mw-contenttype"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
@@ -60,11 +58,15 @@ func App() *buffalo.App {
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
-		app.Use(popmw.Transaction(models.DB))
+		//app.Use(popmw.Transaction(models.DB))
 
+		g := app.Group("/api/v1")
+		g.Use(contenttype.Set("application/json"))
+
+		ur := &UserResource{}
+		g.GET("/users", ur.GetUsers)
 		app.GET("/", HomeHandler)
 	}
-
 	return app
 }
 

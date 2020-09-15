@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/deibyssoca/ds_backend_go/actions"
+	"github.com/deibyssoca/ds_backend_go/models"
 )
 
 // main is the starting point for your Buffalo application.
@@ -13,7 +14,9 @@ import (
 // call `app.Serve()`, unless you don't want to start your
 // application that is. :)
 func main() {
+
 	app := actions.App()
+	models.SetDefaultUser()
 	if err := app.Serve(); err != nil {
 		log.Fatal(err)
 	}

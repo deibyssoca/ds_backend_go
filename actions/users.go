@@ -1,7 +1,9 @@
 package actions
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/deibyssoca/ds_backend_go/models"
 	"github.com/gobuffalo/buffalo"
@@ -17,32 +19,21 @@ type UserResource struct{}
 
 // GetUsers all users are obtained.
 func (ur UserResource) GetUsers(c buffalo.Context) error {
-	//users := []models.User{}
-	users := models.GetUsers()
-	return c.Render(http.StatusOK, r.JSON(users))
-	//return c.Render(http.StatusOK, r.JSON(map[string]string{"message": "Users"}))
-
+	return c.Render(http.StatusOK, r.JSON(models.GetUsers()))
 }
 
-// func (ur UserResource) List(c buffalo.Context) error {
-// 	tx, err := pop.Connect("development")
-// 	if err != nil {
-// 		log.Panic(err)
-// 	}
+// GetUser by id
+func (ur UserResource) GetUser(c buffalo.Context) error {
 
-// 	users := []models.User{}
-// 	error := tx.All(&users)
-// 	if err != nil {
-// 		log.Panic(error)
-// 	}
-// 	return c.Render(200, r.JSON(users))
-// }
+	if m, ok := c.Params().(url.Values); ok {
+		for k, v := range m {
+			fmt.Println(k, v)
+		}
+	}
+	return c.Render(http.StatusOK, r.JSON(map[string]string{"message": "Get User!"}))
+}
 
-// func GetUsers(w http.ResponseWriter, r *http.Request) {
-// 	models.SendData(w, models.GetUsers())
-// }
-
-// GetUser a user is obtained.
+// // GetUser a user is obtained.
 // func GetUser(w http.ResponseWriter, r *http.Request) {
 // 	// Add the header
 // 	w.Header().Set("Content-type", "application/json")

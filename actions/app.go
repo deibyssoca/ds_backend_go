@@ -65,6 +65,7 @@ func App() *buffalo.App {
 
 		ur := &UserResource{}
 		g.GET("/users", ur.GetUsers)
+		g.GET("/users/{id:[0-9]+}", ur.GetUser)
 		app.GET("/", HomeHandler)
 	}
 	return app

@@ -1,9 +1,9 @@
 package actions
 
 import (
-	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/deibyssoca/ds_backend_go/models"
 	"github.com/gobuffalo/buffalo"
@@ -24,16 +24,20 @@ func (ur UserResource) GetUsers(c buffalo.Context) error {
 
 // GetUser by id
 func (ur UserResource) GetUser(c buffalo.Context) error {
-
+	var userID int
 	if m, ok := c.Params().(url.Values); ok {
-		for k, v := range m {
-			fmt.Println(k, v)
-		}
+		userID, _ = strconv.Atoi(m["id"][0])
 	}
-	return c.Render(http.StatusOK, r.JSON(map[string]string{"message": "Get User!"}))
+
+	user, err := models.GetUser(userID)
+	if err != nil {
+		return c.Render(http.StatusNotFound, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+	}
+	return c.Render(http.StatusOK, r.JSON(user))
+
 }
 
-// // GetUser a user is obtained.
+// GetUser a user is obtained.
 // func GetUser(w http.ResponseWriter, r *http.Request) {
 // 	// Add the header
 // 	w.Header().Set("Content-type", "application/json")

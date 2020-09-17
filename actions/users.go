@@ -37,22 +37,6 @@ func (ur UserResource) GetUser(c buffalo.Context) error {
 
 }
 
-// GetUser a user is obtained.
-// func GetUser(w http.ResponseWriter, r *http.Request) {
-// 	// Add the header
-// 	w.Header().Set("Content-type", "application/json")
-// 	//user := models.User{ID: 1, UserName: "Deibys", Password: "1234"}
-// 	vars := mux.Vars(r)
-// 	userID, _ := strconv.Atoi(vars["id"])
-
-// 	if user, err := models.GetUser(userID); err != nil {
-// 		w.WriteHeader(http.StatusNotFound)
-// 		models.SendNotFound(w)
-// 	} else {
-// 		models.SendData(w, user)
-// 	}
-// }
-
 // // CreateUser user created
 // func CreateUser(w http.ResponseWriter, r *http.Request) {
 // 	fmt.Fprintf(w, "User created.!")

@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -37,6 +39,29 @@ func (ur UserResource) GetUser(c buffalo.Context) error {
 
 }
 
+// CreateUser endpoint
+func (ur UserResource) CreateUser(c buffalo.Context) error {
+	body, err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		return c.Render(http.StatusUnprocessableEntity, r.JSON(map[string]string{"Message": "Error reading body."}))
+	}
+
+	user := &models.User{}
+	//converts Request Body to JSON and adds it to a user instance. Then adds ID
+	json.Unmarshal([]byte(body), user)
+	return c.Render(http.StatusCreated, r.JSON(models.SaveUser(*user)))
+}
+
+// UpdateUser endpoint
+func (ur UserResource) UpdateUser(c buffalo.Context) error {
+	return c.Render(http.StatusOK, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+}
+
+// DeleteUser endpoint
+func (ur UserResource) DeleteUser(c buffalo.Context) error {
+	return c.Render(http.StatusOK, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+}
+
 // // CreateUser user created
 // func CreateUser(w http.ResponseWriter, r *http.Request) {
 // 	fmt.Fprintf(w, "User created.!")
@@ -50,18 +75,4 @@ func (ur UserResource) GetUser(c buffalo.Context) error {
 // // DeleteUser user deleted
 // func DeleteUser(w http.ResponseWriter, r *http.Request) {
 // 	fmt.Fprintf(w, "User deleted!")
-// }
-
-// func (ur UserResource) List(c buffalo.Context) error {
-// 	tx, err := pop.Connect("development")
-// 	if err != nil {
-// 		log.Panic(err)
-// 	}
-
-// 	users := []models.User{}
-// 	error := tx.All(&users)
-// 	if err != nil {
-// 		log.Panic(error)
-// 	}
-// 	return c.Render(200, r.JSON(users))
 // }

@@ -66,6 +66,10 @@ func App() *buffalo.App {
 		ur := &UserResource{}
 		g.GET("/users", ur.GetUsers)
 		g.GET("/users/{id:[0-9]+}", ur.GetUser)
+		g.POST("/users/", ur.CreateUser)
+		g.PUT("/api/v1/users/", ur.UpdateUser)
+		g.DELETE("/api/v1/users/", ur.DeleteUser)
+
 		app.GET("/", HomeHandler)
 	}
 	return app

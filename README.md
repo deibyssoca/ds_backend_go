@@ -51,3 +51,6 @@ curl http://localhost:3000 -X POST -i
 
 # - H para agregar encabezados
 curl "http://localhost:3000/params" -H "acces_token:aaa123"
+
+# CreateUser POST
+curl http://127.0.0.1:3001/api/v1/users/ -X POST -d '{"username": "Esteban", "password":"pass1234"}' -H "Content-Type: application/json"

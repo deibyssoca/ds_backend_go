@@ -36,3 +36,10 @@ func GetUser(userID int) (User, error) {
 	}
 	return User{}, errors.New("The user is not on the map")
 }
+
+// SaveUser new  user
+func SaveUser(user User) User {
+	user.ID = len(users) + 1
+	users[user.ID] = user
+	return user
+}

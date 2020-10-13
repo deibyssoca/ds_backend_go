@@ -26,17 +26,11 @@ func (ur UserResource) GetUsers(c buffalo.Context) error {
 
 // GetUser by id
 func (ur UserResource) GetUser(c buffalo.Context) error {
-	var userID int
-	if m, ok := c.Params().(url.Values); ok {
-		userID, _ = strconv.Atoi(m["id"][0])
-	}
-
-	user, err := models.GetUser(userID)
+	user, err := getUserByContext(c)
 	if err != nil {
 		return c.Render(http.StatusNotFound, r.JSON(map[string]string{"Message": "Resource Not Found."}))
 	}
 	return c.Render(http.StatusOK, r.JSON(user))
-
 }
 
 // CreateUser endpoint
@@ -54,12 +48,34 @@ func (ur UserResource) CreateUser(c buffalo.Context) error {
 
 // UpdateUser endpoint
 func (ur UserResource) UpdateUser(c buffalo.Context) error {
-	return c.Render(http.StatusOK, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+	user, err := getUserByContext(c)
+	if err != nil {
+		return c.Render(http.StatusNotFound, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+	}
+
+	body, err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		return c.Render(http.StatusUnprocessableEntity, r.JSON(map[string]string{"Message": "Error reading body."}))
+	}
+
+	userResponse := &models.User{}
+	//converts Request Body to JSON and adds it to a user instance. Then adds ID
+	json.Unmarshal([]byte(body), userResponse)
+
+	return c.Render(http.StatusOK, r.JSON(models.UpdateUser(user, *userResponse)))
 }
 
 // DeleteUser endpoint
 func (ur UserResource) DeleteUser(c buffalo.Context) error {
 	return c.Render(http.StatusOK, r.JSON(map[string]string{"Message": "Resource Not Found."}))
+}
+
+func getUserByContext(c buffalo.Context) (models.User, error) {
+	var userID int
+	if m, ok := c.Params().(url.Values); ok {
+		userID, _ = strconv.Atoi(m["id"][0])
+	}
+	return models.GetUser(userID)
 }
 
 // // CreateUser user created

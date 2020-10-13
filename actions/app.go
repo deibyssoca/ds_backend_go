@@ -1,7 +1,9 @@
 package actions
 
 import (
+	"github.com/deibyssoca/ds_backend_go/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/buffalo-pop/pop/popmw"
 	"github.com/gobuffalo/envy"
 	forcessl "github.com/gobuffalo/mw-forcessl"
 	i18n "github.com/gobuffalo/mw-i18n"
@@ -58,7 +60,7 @@ func App() *buffalo.App {
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
-		//app.Use(popmw.Transaction(models.DB))
+		app.Use(popmw.Transaction(models.DB))
 
 		g := app.Group("/api/v1")
 		g.Use(contenttype.Set("application/json"))
@@ -67,7 +69,7 @@ func App() *buffalo.App {
 		g.GET("/users", ur.GetUsers)
 		g.GET("/users/{id:[0-9]+}", ur.GetUser)
 		g.POST("/users/", ur.CreateUser)
-		g.PUT("/api/v1/users/", ur.UpdateUser)
+		g.PUT("/users/{id:[0-9]+}", ur.UpdateUser)
 		g.DELETE("/api/v1/users/", ur.DeleteUser)
 
 		app.GET("/", HomeHandler)
